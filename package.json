@@ -30,6 +30,9 @@
     "mkdirp": "~0.5.0",
     "mongodb": "^1.4.34",
     "nodegit": "~0.2.7",
+    "passport": "^0.2.1",
+    "passport-github": "^0.1.5",
+    "passport-oauth": "^1.0.0",
     "rimraf": "^2.3.2",
     "underscore": "^1.8.2"
   }
