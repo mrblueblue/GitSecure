@@ -1,16 +1,16 @@
+'use strict';
 
 var db = require('./database.js');
-var users = db.get('users')
+var users = db.get('users');
 
 var session = require('express-session');
 var passport = require('passport');
-var OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 var GitHubStrategy = require('passport-github').Strategy;
 
 module.exports = function(app){
 
   app.get('/',function(req, res, next){
-    console.log('hello')
+    console.log('hello');
     if (req.user || req.session.passport !== {}) {
       console.log('in the checkUser utility function, about to execute next()');
       next();
@@ -55,11 +55,11 @@ module.exports = function(app){
 
       users.findOne({userid: profile.id}).on('success', function (doc) {
         if (!doc){
-          doc = {}
-          doc.userid = profile.id
+          doc = {};
+          doc.userid = profile.id;
         }
         doc.accessToken = accessToken;
-        console.log("THIS IS THE DOC", doc)
+        console.log('THIS IS THE DOC', doc);
         return done(null, profile);
       });
 
@@ -93,4 +93,4 @@ module.exports = function(app){
     res.send(req.isAuthenticated() ? req.user : 'unauthorized');
   });
 
-}
+};
