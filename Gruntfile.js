@@ -25,6 +25,7 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'server.js',
         'database.js',
+        'client/**/*.js',
         'gitListener/**/*.js',
         'server/**/*.js'
       ],
@@ -84,6 +85,7 @@ module.exports = function(grunt) {
           'Gruntfile.js',
           'server.js',
           'database.js',
+          'client/**/*.js',
           'gitListener/**/*.js',
           'server/**/*.js'
         ],

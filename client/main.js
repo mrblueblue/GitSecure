@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('GitSecure', [
+window.angular.module('GitSecure', [
   'main',
   'ui.router',
   'ngRoute'
@@ -20,8 +20,9 @@ angular.module('GitSecure', [
         return response;
       },
       responseError: function(response) {
-        if (response.status === 401)
+        if (response.status === 401) {
           $location.url('/login');
+        }
         return $q.reject(response);
       }
     };
@@ -31,7 +32,7 @@ angular.module('GitSecure', [
   // has been authenticated. The function gets called on the
   // 'main' state's resolution (on 'resolve')
 
-  var authorize = function($q, $timeout, $http, $location, $rootScope) {
+  var authorize = function($q, $timeout, $http, $location) { // unused $rootScope
     var deferred = $q.defer();
 
     $http.get('/loggedin').success(function(user){
@@ -60,7 +61,7 @@ angular.module('GitSecure', [
       controller: 'mainController',
       data: {requireLogin: true},
       resolve: {check: authorize}
-    })  
+    });
 
 })
 
@@ -79,7 +80,7 @@ angular.module('GitSecure', [
   // to main state; otherwise, redirect to login
 
   $http.get('/loggedin')
-    .success(function(data, status, headers, config) {
+    .success(function(data) { // unused status, headers, config
       if (data === 'unauthorized'){
         $state.go('login');
       } else {
@@ -88,14 +89,14 @@ angular.module('GitSecure', [
         $state.go('main');
       }
     }).
-    error(function(data, status, headers, config) {
+    error(function() { // unused data, status, headers, config
     });
 
   // State Change Listener
   // if user goes to a route that requires login and
   // is not authorized, then redirect to login
 
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+  $rootScope.$on('$stateChangeStart', function (event, toState) { // unused toParams
     var requireLogin = toState.hasOwnProperty('data') ? toState.datarequireLogin : null;
     if (requireLogin && !$rootScope.isAuth) {
       event.preventDefault();
