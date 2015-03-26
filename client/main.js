@@ -83,6 +83,7 @@ angular.module('GitSecure', [
       if (data === 'unauthorized'){
         $state.go('login');
       } else {
+        $rootScope.username = data.username;
         $rootScope.isAuth = true;
         $state.go('main');
       }
