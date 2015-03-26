@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'server.js',
         'database.js',
-        'gitListner/**/*.js',
+        'gitListener/**/*.js',
         'server/**/*.js'
       ],
       options: {force: 'true', jshintrc: true}
@@ -84,7 +84,7 @@ module.exports = function(grunt) {
           'Gruntfile.js',
           'server.js',
           'database.js',
-          'gitListner/**/*.js',
+          'gitListener/**/*.js',
           'server/**/*.js'
         ],
         tasks: ['jshint', 'test']
