@@ -18,5 +18,6 @@
     "trailing": true,
     "smarttabs": true,
     "white": true,
-    "multistr": true
+    "multistr": true,
+    "camelcase": false
 }

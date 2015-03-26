@@ -1,6 +1,7 @@
 'use strict';
 
-var childProcess = require('child_process');
+var deploy = require('./deploy.js').deploy;
+var processRepo = require('../server/services/processRepo.js').processRepo;
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -15,28 +16,13 @@ app.use(bodyParser.json());
 
 app.post('/', function(req, res){
   console.log(req.body);
-  if (req.body.repository.full_name === 'graffiome/GitSecure') {
-    var execOptions = {
-      cwd: '/home/gitsecure/GitSecure/',
-    };
-    var gitCmd = 'git pull --rebase origin master';
-    var npmCmd = 'npm install';
-    var bowerCmd = 'bower install';
-    childProcess.exec(gitCmd, execOptions, function(err, stdout, stderr){
-      if (err) {console.error(err);}
-      if (stdout) {console.log(stdout);}
-      if (stderr) {console.warn(stderr);}
-      childProcess.exec(npmCmd, execOptions, function(err, stdout, stderr){
-        if (err) {console.error(err);}
-        if (stdout) {console.log(stdout);}
-        if (stderr) {console.warn(stderr);}
-      });
-      childProcess.exec(bowerCmd, execOptions, function(err, stdout, stderr){
-        if (err) {console.error(err);}
-        if (stdout) {console.log(stdout);}
-        if (stderr) {console.warn(stderr);}
-      });
-    });
+  // If this is our repo deploy
+  if (req.body.repository && req.body.repository.full_name === 'graffiome/GitSecure') {
+    deploy();
+  } else if (req.body.repository && req.body.repository.id) { //other repo, scan
+    processRepo(req.body.repository.id);
   }
   res.end();
 });
+
+
