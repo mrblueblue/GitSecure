@@ -1,5 +1,11 @@
 'use strict';
 
+var db = require('../database.js');
+var users = db.get('users')
+
+// User Collection Schema
+// {userid: INT, accessToken: STRING }
+
 var express = require('express');
 var bodyParser = require('body-parser');
   
@@ -41,16 +47,32 @@ app.use(session({
   secret: 'this is our secret'
 }));
 
+// Authentication Strategy for Github
+
 passport.use(new GitHubStrategy({
   clientID: 'secret',
   clientSecret: 'secret',
   callbackURL: 'http://localhost:3000/auth/github/callback'
+
+  // Begin Authentication Callback 
+
 }, function(accessToken, refreshToken, profile, done){
-  console.log('accessToken', accessToken);
-   process.nextTick(function () {
-    return done(null, profile);
-  })
-}));
+
+    // Logging for Testing
+
+    console.log('accessToken', accessToken);
+    console.log('profile', profile);
+
+    // Find Document with matching userid and then save access token
+
+    users.findOne({userid: profile.id}).on('success', function (doc) {
+      doc.accessToken = accessToken;
+      return done(null, profile);
+    });
+  }
+));
+
+users.findOne({ name: 'test' }).on('success', function (doc) {});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,7 +86,6 @@ app.get('/auth/github/callback',
   function(req, res) {
     res.redirect('/');
   });
-
 
 app.get('/auth/error', function(req, res){
   console.log('login failed in server');
