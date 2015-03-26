@@ -36,7 +36,7 @@ var processRepo = function(repoID) {
             }
             
             if (!scanResults) {
-              scanResults = {'error': 'Congrats, nothing found!'}
+              scanResults = {'clear': 'Congrats, nothing found!'}
             }
 
             // add scan results to the DB
@@ -58,7 +58,7 @@ var processRepo = function(repoID) {
             }
 
             if (!retireResults) {
-              retireResults = {'error': 'Congrats, nothing found!'}
+              retireResults = {'clear': 'Congrats, nothing found!'}
             }
 
             // add retire results to the DB
@@ -77,7 +77,7 @@ var processRepo = function(repoID) {
             try {
               parseService.parseFile(repoID, function(parseResults) {
                 if (!parseResults) {
-                  parseResults = {'error': 'Congrats, nothing found!'}
+                  parseResults = {'clear': 'Congrats, nothing found!'}
                 }
 
                 repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}, function(err, doc) {
