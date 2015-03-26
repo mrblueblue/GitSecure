@@ -70,7 +70,6 @@ var getTextFile = function(path, callback) {
 
 // concats all the files in the directory for processing as a single unit
 var concatDirectory = function(pathName, callback) {
-  console.log('concatDirectory called...');
   var path = __dirname + '/../../../git_data/' + pathName;
   var dirNamePath = __dirname + '/concatDirectories.sh';
   var dirCWD = __dirname + '/../../../git_data/' + pathName +'/';
@@ -91,7 +90,6 @@ var concatDirectory = function(pathName, callback) {
 
 // calls concatDirectory, which processes the file and returns an array of match objects
 module.exports.parseFile = function(dir, resultsCallback) {
-  console.log('parseFile called...');
   concatDirectory(dir, function(matchArray) {
     resultsCallback(matchArray);
   });

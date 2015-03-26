@@ -23,15 +23,20 @@ var processRepo = function(repoID) {
       var fullRelativePath = __dirname + '/../git_data/' + repoID;
 
       // async library function that lets you run async functions in parallel and wait until 
-      // they're all finished before continuing (we wait for everything to finish before deleting files)
+      // they're all finished before continuing (we wait for each scan to finish before deleting files)
       async.series([
+          // run scanjs
           function(callback){
-            // run scanjs
             console.log('starting scanJS...');
-            var scanResults = scanjs.scanDir(fullRelativePath);
-            console.log('scanResults: ', scanResults);
+            try {
+              var scanResults = scanjs.scanDir(fullRelativePath);  
+            } catch (e) {
+              console.log('ScanJS error!: ', e);
+              var scanResults = {'error': 'ScanJS failed... sorry!'}
+            }
+            
             if (!scanResults) {
-              console.log('no results from scanjs!');
+              scanResults = {'clear': 'Congrats, nothing found!'}
             }
 
             // add scan results to the DB
@@ -41,11 +46,21 @@ var processRepo = function(repoID) {
             });
           },
 
+          // run retirejs
           function(callback){
-            // run retirejs
             console.log('starting retireJS...');
-            var retireResults = retirejs.retireScan(fullRelativePath);
-            console.log('retireResults: ', retireResults);
+
+            try {
+              var retireResults = retirejs.retireScan(fullRelativePath);
+            } catch (e) {
+              console.log('retireJS error!: ', e);
+              var retireResults = {'error': 'ScanJS failed... sorry!'}
+            }
+
+            if (!retireResults) {
+              retireResults = {'clear': 'Congrats, nothing found!'}
+            }
+
             // add retire results to the DB
             repos.findAndModify({_id: repoID}, {$set: {'repo_info.retire_results': retireResults}}, function(err, doc) {
               if (err) {
@@ -56,14 +71,28 @@ var processRepo = function(repoID) {
             });
           },
 
+          // run api_key scanning (this one requires a callback... technical debt)
           function(callback){
             console.log('starting api_key scan...');
-            parseService.parseFile(repoID, function(parseResults) {
+            try {
+              parseService.parseFile(repoID, function(parseResults) {
+                if (!parseResults) {
+                  parseResults = {'clear': 'Congrats, nothing found!'}
+                }
+
+                repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}, function(err, doc) {
+                  console.log('record updated with parseResults...');
+                  callback(null, 'parse');
+                });
+              });
+            } catch (e) {
+              console.log('apikey parsing error!: ', e);
+              var parseResults = {'error': 'apikey parsing failed... sorry!'};
               repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': parseResults}}, function(err, doc) {
                 console.log('record updated with parseResults...');
                 callback(null, 'parse');
               });
-            });
+            }
           }
       ],
 
@@ -73,9 +102,8 @@ var processRepo = function(repoID) {
             console.log('something went wrong in the parallel exec!');
             console.log('error: ', err);
           } else {
-            console.log('results: ', results);
-            console.log('repoID: ', repoID);
             // delete the repo here
+            console.log('Removing repoID: ', repoID);
             fileSystemUtilities.removeDirectoryAsync(__dirname + '/../git_data/' + repoID);  
           }
       });
@@ -89,7 +117,6 @@ var initialize = function() {
   var pathToData = __dirname + '/../git_data';
   fileSystemUtilities.removeDirectorySync(pathToData);
   console.log('system ready to process repos...');
-  
 };
 
 initialize();

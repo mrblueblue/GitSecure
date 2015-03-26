@@ -14,7 +14,7 @@ exports.query = function(repoID, callback){
         console.log(err);
       } else {
         // once we get it (array of Repo documents) pass it along
-        console.log('findOne doc: ', doc);
+        console.log('repo to process: ', doc.repo_info.git_url);
         callback(doc);
       }
     });
