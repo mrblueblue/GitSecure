@@ -19,8 +19,9 @@ var dive = function(dir, action) {
   var list = fs.readdirSync(dir);
   list.forEach(function(file) {
     var fullpath = dir + '/' + file;
+    var stat;
     try {
-      var stat = fs.statSync(fullpath);
+      stat = fs.statSync(fullpath);
     } catch(e) {
       console.log('SKIPPING FILE: Could not stat ' + fullpath);
     }
@@ -43,9 +44,10 @@ var scanDir = function(dir) {
     var ext = path.extname(file.toString());
 
     if(ext === '.js') {
-      var content = fs.readFileSync(fullpath, 'utf8');
+      var content;
+      content = fs.readFileSync(fullpath, 'utf8');
       //beautify source so result snippet is meaningful
-      var content = beautify(content, { indent_size: 2 });
+      content = beautify(content, { indent_size: 2 });
 
       var ast = parser.parse(content, { locations: true });
 
