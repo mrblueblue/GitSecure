@@ -1,5 +1,5 @@
 
-var db = require('../database.js');
+var db = require('./database.js');
 var users = db.get('users')
 
 var session = require('express-session');
@@ -38,8 +38,8 @@ module.exports = function(app){
   // Authentication Strategy for Github
 
   passport.use(new GitHubStrategy({
-    clientID: 'your client id',
-    clientSecret: 'your client secret',
+    clientID: '9383eeff63778d471150',
+    clientSecret: 'e4e1ed909f1a2063fd4606adae6636b995229010',
     callbackURL: 'http://localhost:3000/auth/github/callback'
 
     // Begin Authentication Callback 
@@ -53,16 +53,21 @@ module.exports = function(app){
 
       // Find Document with matching userid and then save access token
 
-      // users.findOne({userid: profile.id}).on('success', function (doc) {
-      //   doc.accessToken = accessToken;
-      //   return done(null, profile);
-      // });
+      users.findOne({userid: profile.id}).on('success', function (doc) {
+        if (!doc){
+          doc = {}
+          doc.userid = profile.id
+        }
+        doc.accessToken = accessToken;
+        console.log("THIS IS THE DOC", doc)
+        return done(null, profile);
+      });
 
       // For Testing
 
-      process.nextTick(function () {
-         return done(null, profile);
-       });
+    //   process.nextTick(function () {
+    //      return done(null, profile);
+    //   });
     }
   ));
 
