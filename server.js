@@ -2,10 +2,9 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var cors = require('cors');
 var app = express();
 var util = require('./server/utilities.js');
-var fileSystemUtilities = require('./server/services/fileSystem/utilities');
+var fileSystemUtilities = require('./server/services/fileSystem/utilities.js');
 
 var server = app.listen(3000, function(){
   var host = server.address().address;
@@ -23,7 +22,6 @@ app.use(express.static(__dirname + '/client/'));
 require('./auth-middleware.js')(app);
 
 app.use(bodyParser.json());
-app.use(cors());
 
 app.get('/numbers', function(req, res){
   var counts = util.getCounts();
