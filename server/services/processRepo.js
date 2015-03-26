@@ -1,15 +1,11 @@
-'use strict';
-
 var async = require('async');
-var db = require('../database.js');
-var parseService = require('./services/parsing/readFilesForParsing.js');
-var downloadService = require('./services/downloading/gitHubRepoGrabber.js');
-var queryService = require('./services/query.js');
-var fileSystemUtilities = require('./services/fileSystem/utilities');
-var retirejs = require('./services/retirejs/retire.js');
-var scanjs = require('./services/scanjs/scanner.js');
-
-// async library to make sure we don't delete files before db is updated
+var db = require('../../database.js');
+var parseService = require('./parsing/readFilesForParsing.js');
+var downloadService = require('./downloading/gitHubRepoGrabber.js');
+var queryService = require('./query.js');
+var fileSystemUtilities = require('./fileSystem/utilities');
+var retirejs = require('./retirejs/retire.js');
+var scanjs = require('./scanjs/scanner.js');
 
 var processRepo = function(repoID) {
   // gets individual records from the database and then returns an array with at least 3 of them
@@ -20,7 +16,7 @@ var processRepo = function(repoID) {
     downloadService.readListOfFiles(repoObj, function(repoID){
       // db connection with our Repos
       var repos = db.get('Repos');
-      var fullRelativePath = __dirname + '/../git_data/' + repoID;
+      var fullRelativePath = __dirname + '/../../git_data/' + repoID;
 
       // async library function that lets you run async functions in parallel and wait until 
       // they're all finished before continuing (we wait for each scan to finish before deleting files)
@@ -54,7 +50,7 @@ var processRepo = function(repoID) {
               var retireResults = retirejs.retireScan(fullRelativePath);
             } catch (e) {
               console.log('retireJS error!: ', e);
-              var retireResults = {'error': 'ScanJS failed... sorry!'}
+              var retireResults = {'error': 'RetireJS failed... sorry!'}
             }
 
             if (!retireResults) {
@@ -104,7 +100,7 @@ var processRepo = function(repoID) {
           } else {
             // delete the repo here
             console.log('Removing repoID: ', repoID);
-            fileSystemUtilities.removeDirectoryAsync(__dirname + '/../git_data/' + repoID);  
+            fileSystemUtilities.removeDirectoryAsync(__dirname + '/git_data/' + repoID);  
           }
       });
 
@@ -112,11 +108,4 @@ var processRepo = function(repoID) {
   });
 };
 
-var initialize = function() {
-  console.log('Initializing GitSecure and cleaning from last cycle');
-  var pathToData = __dirname + '/../git_data';
-  fileSystemUtilities.removeDirectorySync(pathToData);
-  console.log('system ready to process repos...');
-};
-
-initialize();
+exports.processRepo = processRepo;
