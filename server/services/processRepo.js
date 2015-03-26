@@ -5,7 +5,7 @@ var db = require('../../database.js');
 var parseService = require('./parsing/readFilesForParsing.js');
 var downloadService = require('./downloading/gitHubRepoGrabber.js');
 var queryService = require('./query.js');
-var fileSystemUtilities = require('./fileSystem/utilities');
+var fileSystemUtilities = require('./fileSystem/utilities.js');
 var retirejs = require('./retirejs/retire.js');
 var scanjs = require('./scanjs/scanner.js');
 
