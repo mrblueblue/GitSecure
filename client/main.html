@@ -1,4 +1,16 @@
-<div class="container" id="login">
+<div class="container" id="main">
   <h2>Main</h2>
-  
+  <h3>List of Repos</h3>
+  <div ng-controller="mainController">
+    <button ng-click="populateRepos()">Get GitHub Repos!</button>
+    <ul>
+      <li ng-repeat="repo in repos">
+        <input type="checkbox"/>
+        {{ repo.name }}
+        <br>
+        {{ repo.html_url }}
+      </li>
+    </ul>
+    <button ng-show="repos" ng-click="">Submit Repos for Analysis!</button>
+  </div>
 </div>
