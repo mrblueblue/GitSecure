@@ -20,5 +20,12 @@ exports.registerRepo = function(repoUrl, authToken, unsubscribe) {
       username: '',
       password: authToken
     }
+  }, function(error, incoming, body){
+    if (error) {
+      console.log('error:', error);
+    }
+    if (body) {
+      console.log('response', body);
+    }
   });
 };
