@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 // response as an array of repo ids that
 // the user has subscribed to
 app.get('/repos/:userid', function(req, res){
-  console.log('This is the request:', req);
+  //console.log('This is the request:', req);
   db.findAllReposByUser(req.params.userid, function(docs) {
     var collection = docs.map(function(doc){
       return doc.id;
@@ -46,7 +46,7 @@ app.get('/repos/:userid', function(req, res){
 //  git_url, git_url,
 // }
 app.post('/repos', function(req, res){
-  console.log('This is the request:', req);
+  //console.log('This is the request:', req);
   req.body.forEach(function(repo) {
     db.getOrInsertRepo(repo);
   });
@@ -66,7 +66,7 @@ app.post('/repos', function(req, res){
 //   }
 // }
 app.get('/results/:userid', function(req, res){
-  console.log('This is the request:', req);
+  //console.log('This is the request:', req);
   db.findAllReposByUser(req.param.userid, function(docs) {
     var collection = docs.map(function(doc){
       delete doc.users;

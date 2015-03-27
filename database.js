@@ -130,6 +130,7 @@ exports.getOrInsertRepo = function(params, callback) {
         
         getAuthToken(params.userid, function(token){
           if (token) {
+            console.log('About to call register repo', params.html_url, token);
             registerRepo(params.html_url, token);
           }
         });
