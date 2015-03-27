@@ -26,8 +26,8 @@ angular.module('main',['ngMaterial'])
     var checkboxes = $('input:checkbox');
     checkboxes.each(function(index, repo){
       repo = $(repo)
-      var repo_id = $(repo).attr('data-repo-id');
-      if ( collection.indexOf(repo_id) !== -1 ){
+      var repoid = $(repo).attr('data-repo-id');
+      if ( collection.indexOf(repoid) !== -1 ){
         repo.prop('checked', true);
       }
     });
@@ -63,7 +63,6 @@ angular.module('main',['ngMaterial'])
       //  html_url: html_url,
       //  git_url, git_url,
       // }
-
 
     });
 
