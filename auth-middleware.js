@@ -53,19 +53,18 @@ module.exports = function(app){
 
       users.findOne({userid: profile.id}).on('success', function (doc) {
         if (!doc){
-          doc = {};
-          doc.userid = profile.id;
+          users.insert({
+              userid: profile.id, 
+              accessToken: accessToken
+          }, function(err) { // ignoring doc
+            if (err) {console.error(err);}
+            return done(null, profile);
+          });
+        } else {
+          doc.accessToken = accessToken;
+          return done(null, profile);
         }
-        doc.accessToken = accessToken;
-        // console.log('THIS IS THE DOC', doc);
-        return done(null, profile);
       });
-
-      // For Testing
-
-    //   process.nextTick(function () {
-    //      return done(null, profile);
-    //   });
     }
   ));
 
