@@ -1,9 +1,11 @@
+'use strict';
+
 var async = require('async');
 var db = require('../../database.js');
 var parseService = require('./parsing/readFilesForParsing.js');
 var downloadService = require('./downloading/gitHubRepoGrabber.js');
 var queryService = require('./query.js');
-var fileSystemUtilities = require('./fileSystem/utilities');
+var fileSystemUtilities = require('./fileSystem/utilities.js');
 var retirejs = require('./retirejs/retire.js');
 var scanjs = require('./scanjs/scanner.js');
 
@@ -24,19 +26,20 @@ var processRepo = function(repoID) {
           // run scanjs
           function(callback){
             console.log('starting scanJS...');
+            var scanResults;
             try {
-              var scanResults = scanjs.scanDir(fullRelativePath);  
+              scanResults = scanjs.scanDir(fullRelativePath);  
             } catch (e) {
               console.log('ScanJS error!: ', e);
-              var scanResults = {'error': 'ScanJS failed... sorry!'}
+              scanResults = {'error': 'ScanJS failed... sorry!'};
             }
             
             if (!scanResults) {
-              scanResults = {'clear': 'Congrats, nothing found!'}
+              scanResults = {'clear': 'Congrats, nothing found!'};
             }
 
             // add scan results to the DB
-            repos.findAndModify({_id: repoID}, {$set: {'repo_info.scan_results': JSON.stringify(scanResults)}}, function(err, doc) {
+            repos.findAndModify({_id: repoID}, {$set: {'repo_info.scan_results': JSON.stringify(scanResults)}}, function() {
               console.log('record updated with scanResults...');
               callback(null, 'scan');
             });
@@ -46,19 +49,20 @@ var processRepo = function(repoID) {
           function(callback){
             console.log('starting retireJS...');
 
+            var retireResults;
             try {
-              var retireResults = retirejs.retireScan(fullRelativePath);
+              retireResults = retirejs.retireScan(fullRelativePath);
             } catch (e) {
               console.log('retireJS error!: ', e);
-              var retireResults = {'error': 'RetireJS failed... sorry!'}
+              retireResults = {'error': 'RetireJS failed... sorry!'};
             }
 
             if (!retireResults) {
-              retireResults = {'clear': 'Congrats, nothing found!'}
+              retireResults = {'clear': 'Congrats, nothing found!'};
             }
 
             // add retire results to the DB
-            repos.findAndModify({_id: repoID}, {$set: {'repo_info.retire_results': retireResults}}, function(err, doc) {
+            repos.findAndModify({_id: repoID}, {$set: {'repo_info.retire_results': retireResults}}, function(err) {
               if (err) {
                 console.log('db err: ', err);
               }
@@ -73,10 +77,10 @@ var processRepo = function(repoID) {
             try {
               parseService.parseFile(repoID, function(parseResults) {
                 if (!parseResults) {
-                  parseResults = {'clear': 'Congrats, nothing found!'}
+                  parseResults = {'clear': 'Congrats, nothing found!'};
                 }
 
-                repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}, function(err, doc) {
+                repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}, function() {
                   console.log('record updated with parseResults...');
                   callback(null, 'parse');
                 });
@@ -84,7 +88,7 @@ var processRepo = function(repoID) {
             } catch (e) {
               console.log('apikey parsing error!: ', e);
               var parseResults = {'error': 'apikey parsing failed... sorry!'};
-              repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': parseResults}}, function(err, doc) {
+              repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': parseResults}}, function() {
                 console.log('record updated with parseResults...');
                 callback(null, 'parse');
               });
@@ -93,7 +97,7 @@ var processRepo = function(repoID) {
       ],
 
       // called once all three fn's above are done
-      function(err, results){
+      function(err){
           if (err) {
             console.log('something went wrong in the parallel exec!');
             console.log('error: ', err);

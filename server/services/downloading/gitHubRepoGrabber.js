@@ -2,7 +2,6 @@
 
 var mkdirp = require('mkdirp');
 var clone = require('nodegit').Clone.clone;
-var async = require('async');
 
 exports.readListOfFiles = function(repoObj, endAsyncLoopCallback) {
   // for each git item passed in asynchronously make a directory

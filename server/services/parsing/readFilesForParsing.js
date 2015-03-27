@@ -1,11 +1,7 @@
 'use strict';
 
-var db = require('../../../database.js');
 var spawn = require('child_process').spawn;
 var fs = require('fs');
-var async = require('async');
-var fileSystemUtilities = require('./../fileSystem/utilities');
-var emailService = require('./../email/emailer.js');
 
 var APIRegexes = {
   flikrKey: /(flikr)? (key)? ?[:=] ?[a-z0-9]{32}/i, 
