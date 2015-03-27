@@ -8,12 +8,12 @@ body{
   margin-right: 20%;
 }
 
-ul {
+.tab-container ul {
   padding: 0;
 	list-style-type: none;
 }
 
-p, li {
+.tab-container p, li, h5 {
   color: white;
 }
 /************
