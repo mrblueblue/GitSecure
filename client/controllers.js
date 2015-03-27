@@ -4,14 +4,8 @@
 angular.module('main',[])
 .controller('mainController', function($scope, mainly, $http){
 
-  var collection = [
-    '28679810', 
-    '32131374',
-    '31937760'
-    ];
-
   // Checkmarks a repo given a list of repos user has subscribed to
-  var checkRepo = function(collection){
+  var checkRepos = function(collection){
     var checkboxes = $('input:checkbox')
     checkboxes.each(function(index, repo){
       repo = $(repo)
@@ -27,29 +21,35 @@ angular.module('main',[])
     console.log('populate called!');
     mainly.getRepos(function(data) {
       $scope.repos = data;
+      $http.get('/repos').success(function(data){
+        checkRepos(data);
+      })
     });
   };
 
   $scope.submit = function(e){
-    $http.get('/getRepos').success(function(data){
-        console.log(data);
-      })
     var checked = $(':checked');
     checked.each(function(index, repo){
       var data = {}
-      data.html_url = repo.getAttribute('data-url');
-      data.git_url = repo.getAttribute('data-git-url');
-      data.user_id = repo.getAttribute('data-user-id');
-      data.repo_id = repo.getAttribute('data-repo-id');
-      data.repo_name = repo.getAttribute('data-repo-name');
+      repo = $(repo)
+      data.html_url = repo.attr('data-url');
+      data.git_url = repo.attr('data-git-url');
+      data.user_id = repo.attr('data-user-id');
+      data.repo_id = repo.attr('data-repo-id');
+      data.repo_name = repo.attr('data-repo-name');
       
-      // $http.post('/submitRepos', data).success(function(data){
-      //   console.log("this is the response: ", data);
-      // })
-
-      $http.get('/getRepos').success(function(data){
-        console.log(data);
+      $http.post('/repos', data).success(function(data){
+        console.log("this is the response: ", data);
       })
+
+      // Example data object
+      // var exdata = {
+      //   html_url: "https://github.com/mrblueblue/exercism", 
+      //   git_url: "git://github.com/mrblueblue/exercism.git", 
+      //   user_id: "9220038", 
+      //   repo_id: "28679810"
+      // }
+
     });
   };
 
@@ -65,7 +65,6 @@ angular.module('main',[])
       .success(function(data) { // unused status, headers, config
         console.log('get request succeded!: ', data);
         callback(data);
-        
       })
       .error(function(data) { //unused status, headers, config
         console.log('error getting github repos!: ', data);
@@ -74,25 +73,4 @@ angular.module('main',[])
 
   return {getRepos: getRepos};
 });
-
-// Get all Repos users has subscribed
-
-// Add repo
-
-// Remove repo
-
-// Get reports for repos
-
-
-// repo url
-// git url
-// repo id
-
-
-var exdata = {
-  html_url: "https://github.com/mrblueblue/exercism", 
-  git_url: "git://github.com/mrblueblue/exercism.git", 
-  user_id: "9220038", 
-  repo_id: "28679810"
-}
 
