@@ -12,7 +12,7 @@
       <md-tab id="tab2">
         <md-tab-label class="md-subhead" ng-click="populateRepos()" >Subscriptions</md-tab-label>
         <md-tab-template>
-        <md-button class="md-raised md-primary" ng-show="repos" ng-click="submit()">Submit Repos for Analysis!</md-button>
+          <md-button class="md-raised md-primary" ng-show="repos" ng-click="submit()">Submit Repos for Analysis!</md-button>
          <ul>
            <li class="md-body-1" ng-repeat="repo in repos">
              <input type="checkbox" data-repo-id="{{ repo.id }}" data-git-url="{{ repo.git_url }}" data-url="{{repo.html_url}}" data-user-id="{{ repo.owner.id }}" data-repo-name="{{ repo.name }}"/>
@@ -23,10 +23,14 @@
         </md-tab-template>
       </md-tab>
       <md-tab id="tab3">
-        <md-tab-label class="md-subhead">Results</md-tab-label>
+        <md-tab-label class="md-subhead" ng-click="getResults()">Results</md-tab-label>
         <md-tab-template>
-          <p class="md-body-1">Neutra forage semiotics cornhole DIY American Apparel. Readymade flexitarian umami wayfarers, selfies tousled forage Austin meggings bicycle rights Wes Anderson. Flexitarian Pitchfork McSweeney's four dollar toast biodiesel Marfa scenester, Portland cornhole sustainable. Roof party chambray DIY, Shoreditch tilde aesthetic direct trade polaroid. Banksy freegan swag iPhone flannel direct trade pork belly YOLO pickled. Flannel put a bird on it Shoreditch jean shorts literally Blue Bottle typewriter direct trade. Flexitarian keytar pour-over Thundercats Pitchfork Kickstarter.</p>
-          <p class="md-body-1">Meditation polaroid salvia, kogi sriracha Echo Park occupy. Pitchfork squid salvia freegan, retro sustainable fingerstache tofu. Pork belly DIY wayfarers, skateboard four loko butcher American Apparel keytar cold-pressed Pitchfork actually food truck keffiyeh. Kickstarter health goth Bushwick yr small batch, DIY Wes Anderson. Authentic Tumblr meh photo booth meditation, distillery fashion axe actually food truck Marfa vegan put a bird on it irony 3 wolf moon swag. Lomo leggings lumbersexual, DIY craft beer Helvetica 90's. Pug church-key fashion axe, wayfarers deep v gluten-free cold-pressed umami master cleanse typewriter post-ironic Truffaut.</p>
+          <ul>
+            <li class="md-body-1" ng-repeat="data in results">
+              {{ repo.name }}
+              <br>
+            </li>
+          </ul>
         </md-tab-template>
       </md-tab>
     </md-tabs>
