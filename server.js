@@ -44,38 +44,47 @@ app.get('/repos/:userid', function(req, res){
 //  repoid: repoid,
 //  name: name,
 //  html_url: html_url,
-//  git_url, git_url,
+//  git_url: git_url,
+//  checked: bool
 // }
 
 app.post('/repos/', function(req, res){
 
   //console.log('This is the request:', req);
-  var clientRepos = req.body;
   db.findAllReposByUser(req.body[0].userid, function(docs) {
-    var serverRepos = docs.map(function(doc){
+    var serverRepos = docs;
+    var clientRepos = req.body;
+    var checkedClientRepos = clientRepos.filter(function(repo){
+      return repo.checked === true;
+    });
+    var uncheckedClientRepos = clientRepos.filter(function(repo){
+      return repo.checked === false;
+    });
+    var serverRepoIds = serverRepos.map(function(doc){
       return doc.id;
     });
-    var repoSplits = db.compareArrays(clientRepos, serverRepos);
-    console.log('repoSplits', repoSplits.leftUniq, repoSplits.rightUniq);
-    var leftIds = repoSplits.leftUniq.map(function(doc){
+    var checkedClientRepoIds = checkedClientRepos.map(function(doc){
       return doc.id;
     });
-    var rightIds = repoSplits.rightUniq.map(function(doc){
+    var uncheckedClientRepoIds = uncheckedClientRepos.map(function(doc){
       return doc.id;
     });
 
-    clientRepos.filter(function(doc){
-      return leftIds.indexOf(doc.repoid) !== -1;
-    }).forEach(function(doc){
-      console.log('Inserting repo/user');
-      db.getOrInsertRepo(doc); // ignoring callback
+    var newRepoIds = db.compareArrays(checkedClientRepoIds, serverRepoIds).leftUniq;
+    var removedRepoIds = db.compareArrays(uncheckedClientRepoIds, serverRepoIds).intersect;
+
+    checkedClientRepos.forEach(function(repo){
+      if (newRepoIds.indexOf(repo.repoid) !== -1) {
+        console.log('Inserting repo/user');
+        db.getOrInsertRepo(repo); // ignoring callback
+      }
     });
 
-    clientRepos.filter(function(doc){
-      return rightIds.indexOf(doc.repoid) !== -1; 
-    }).forEach(function(doc){
-      console.log('Removing repo/user');
-      db.removeUserFromRepo(doc.userid, doc.repoid, doc.html_url);
+    uncheckedClientRepoIds.forEach(function(repo){
+      if (removedRepoIds.indexOf(repo.repoid) !== -1) {
+        console.log('Removing repo/user');
+        db.removeUserFromRepo(repo.userid, repo.repoid, repo.html_url);
+      }
     });
   }); 
   
