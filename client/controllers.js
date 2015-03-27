@@ -10,7 +10,6 @@ angular.module('main',[])
     checkboxes.each(function(index, repo){
       repo = $(repo)
       var repo_id = $(repo).attr('data-repo-id');
-      console.log(repo, repo_id)
       if ( collection.indexOf(repo_id) !== -1 ){
         repo.prop('checked', true);
       }
@@ -29,19 +28,16 @@ angular.module('main',[])
 
   $scope.submit = function(e){
     var checked = $(':checked');
+    var repos = [];
     checked.each(function(index, repo){
-      var data = {}
+      var data = {};
       repo = $(repo)
       data.html_url = repo.attr('data-url');
       data.git_url = repo.attr('data-git-url');
       data.user_id = repo.attr('data-user-id');
       data.repo_id = repo.attr('data-repo-id');
       data.repo_name = repo.attr('data-repo-name');
-      
-      $http.post('/repos', data).success(function(data){
-        console.log("this is the response: ", data);
-      })
-
+      repos.push(data);
       // Example data object
       // var exdata = {
       //   html_url: "https://github.com/mrblueblue/exercism", 
@@ -49,8 +45,11 @@ angular.module('main',[])
       //   user_id: "9220038", 
       //   repo_id: "28679810"
       // }
-
     });
+
+    $http.post('/repos', repos).success(function(data){
+      console.log("response received: ", data);
+    });    
   };
 
 })
