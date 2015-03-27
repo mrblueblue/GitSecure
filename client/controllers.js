@@ -1,7 +1,7 @@
 'use strict';
 
 window.angular.module('main',['ngMaterial'])
-.controller('mainController', function($scope, mainly, $http, $rootScope){
+.controller('mainController', function($scope, mainly, $http){
 
   // Tab Functionality for Material Design
 
