@@ -80,7 +80,7 @@ app.post('/repos/', function(req, res){
       }
     });
 
-    uncheckedClientRepoIds.forEach(function(repo){
+    uncheckedClientRepos.forEach(function(repo){
       if (removedRepoIds.indexOf(repo.repoid) !== -1) {
         console.log('Removing repo/user');
         db.removeUserFromRepo(repo.userid, repo.repoid, repo.html_url);
