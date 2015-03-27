@@ -33,6 +33,8 @@ app.get('/repos/:userid', function(req, res){
     var collection = docs.map(function(doc){
       return doc.id;
     });
+    
+    collection = ["32600932"]
     res.status(201).send(collection);
   }); 
 });
@@ -50,6 +52,8 @@ app.get('/repos/:userid', function(req, res){
 
 app.post('/repos/', function(req, res){
 
+  console.log(req.body[0].userid)
+  console.log(typeof req.body[0].userid)
   //console.log('This is the request:', req);
   db.findAllReposByUser(req.body[0].userid, function(docs) {
     var serverRepos = docs;
