@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 // GET route for getting all subscribed repos
 // response as an array of repo ids that
 // the user has subscribed to
+
 app.get('/repos/:userid', function(req, res){
   //console.log('This is the request:', req);
   db.findAllReposByUser(req.params.userid, function(docs) {
@@ -45,10 +46,12 @@ app.get('/repos/:userid', function(req, res){
 //  html_url: html_url,
 //  git_url, git_url,
 // }
+
 app.post('/repos/', function(req, res){
+
   //console.log('This is the request:', req);
   var clientRepos = req.body;
-  db.findAllReposByUser(req.params.userid, function(docs) {
+  db.findAllReposByUser(req.body[0].userid, function(docs) {
     var serverRepos = docs.map(function(doc){
       return doc.id;
     });
@@ -82,6 +85,7 @@ app.post('/repos/', function(req, res){
 //   "parse_results" : "",
 //   }
 // }
+
 app.get('/results/:userid', function(req, res){
   //console.log('This is the request:', req);
   db.findAllReposByUser(req.param.userid, function(docs) {

@@ -66,7 +66,7 @@ window.angular.module('main',['ngMaterial'])
 
     });
 
-    $http.post('/repos/' + $rootScope.userid, repos).success(function(data){
+    $http.post('/repos/', repos).success(function(data){
       console.log('response received:', data);
     });    
   };
