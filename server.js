@@ -61,13 +61,13 @@ app.post('/repos/', function(req, res){
       return repo.checked === false;
     });
     var serverRepoIds = serverRepos.map(function(doc){
-      return doc.id;
+      return doc.repo_id;
     });
     var checkedClientRepoIds = checkedClientRepos.map(function(doc){
-      return doc.id;
+      return doc.repoid;
     });
     var uncheckedClientRepoIds = uncheckedClientRepos.map(function(doc){
-      return doc.id;
+      return doc.repoid;
     });
 
     var newRepoIds = db.compareArrays(checkedClientRepoIds, serverRepoIds).leftUniq;
@@ -79,6 +79,11 @@ app.post('/repos/', function(req, res){
     console.log('uncheckedClientRepoIds:',uncheckedClientRepoIds);
     console.log('newRepoIds:',newRepoIds);
     console.log('removedRepoIds:',removedRepoIds);
+    console.log('serverRepos:',serverRepos);
+    console.log('clientRepos:',clientRepos);
+    console.log('checkedClientRepos:',checkedClientRepos);
+    console.log('uncheckedClientRepos:',uncheckedClientRepos);
+    console.log('req.body:',req.body);
     console.log('DEBUG--------------------');
 
 
