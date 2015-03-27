@@ -3,6 +3,20 @@
 var uri = process.env.DBURI || '127.0.0.1:27017/development';
 var db = exports.db = require('monk')(uri);
 
+/*
+  Repos collection document structure:  
+  {"repo_id": 11667865,
+  "repo_info": {
+    "git_url": "git://github.com/reactjs/react-rails.git",
+    "name" : "react-rails",
+    "scan_results" : "",
+    "retire_results" : "",
+    "parse_results" : "",
+    "users" : [6412038], 
+    }
+  }
+*/
+
 // Assume immutable types are stored in the arrays
 exports.compareArrays = function (leftArray, rightArray) {
   var intersect = [];
@@ -31,7 +45,7 @@ exports.findAllReposByUser = function(userID, callback) {
   db.get('Repos').find({'repo_info.users': userID})
     .on('complete', function(err, docs) {
       if (err) {
-        console.log('find all repos by user failed with error!', err);
+        console.log('find all repos by user failed with error!: ', err);
       } else {
         if (callback) {
           callback(docs);
@@ -40,3 +54,25 @@ exports.findAllReposByUser = function(userID, callback) {
     });
 };
 
+exports.userInRepo = function(userID, repoID, callback) {
+  // check if user exists for repo
+  db.get('Repos').findOne({'repo_id': repoID, 'repo_info.users': userID})
+    .on('complete', function(err, doc) {
+      if (err) {
+        console.log('add user to repo failed with error!: ', err);
+      } else {
+        // if there isn't a record with that repoID and the specified userID add it
+        if (!doc) {
+          // add user to that document
+          db.get('Repos').update({'repo_id': repoID}, {$push: {'repo_info.users': userID}})
+            .on('complete', function(err, doc) {
+              console.log('item found and updated: ', doc);
+              if (callback) {
+                callback(doc);
+              }
+            });
+        }
+      }
+
+    });
+};
