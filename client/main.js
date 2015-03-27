@@ -4,13 +4,12 @@ window.angular.module('GitSecure', [
   'main',
   'ui.router',
   'ngRoute',
-  'tabsDemo1',
   'ngMaterial'
 ])
 
 // Begin App Configuration
 
-.config(function($stateProvider, $httpProvider, $mdThemingProvider){
+.config(function($stateProvider, $httpProvider){
   
   // Register HTTP intercepter as an 'anonymous factory.'
   // HTTP interceptors intercept all requests for

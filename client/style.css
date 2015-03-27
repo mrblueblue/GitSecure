@@ -3,9 +3,13 @@
  * Main
  ************/
 
-body{
+body {
   margin-left: 20%;
   margin-right: 20%;
+}
+
+.login-container {
+  padding: 25px;
 }
 
 .tab-container ul {
@@ -16,6 +20,18 @@ body{
 .tab-container p, li, h5 {
   color: white;
 }
+
+.md-header {
+  background-color: #378;
+}
+.md-tab-content {
+  padding: 25px; 
+}
+
+.md-tab-content{
+  background-color: #378; 
+}
+    
 /************
  * Headers
  ************/
