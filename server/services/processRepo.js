@@ -10,7 +10,7 @@ var retirejs = require('./retirejs/retire.js');
 var scanjs = require('./scanjs/scanner.js');
 
 var processRepo = function(repoID) {
-  console.log('RICH CHECK! repoID that processRepo() was given: ', repoID);
+  console.log('RICH CHECK! repoID that processRepo() was given: ', repoID, typeOf repoID);
   // gets individual records from the database and then returns an array with at least 3 of them
   console.log('starting queryService to get repo...');
   queryService.query(repoID, function(repoObj){
