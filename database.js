@@ -141,3 +141,17 @@ exports.getOrInsertRepo = function(params, callback) {
     }
   });
 };
+
+exports.removeRepo = function(userId, repoId, html_url) {
+  var repos = db.get('Repos');
+
+  getAuthToken(userId, function(token) {
+    registerRepo(html_url, token, true);
+  });
+
+  repos.remove({'repo_id': repoId}, function(error){
+    if (error) {
+      console.error(error);
+    }
+  });
+};
