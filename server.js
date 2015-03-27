@@ -45,11 +45,28 @@ app.get('/repos/:userid', function(req, res){
 //  html_url: html_url,
 //  git_url, git_url,
 // }
-app.post('/repos', function(req, res){
+app.post('/repos/', function(req, res){
   //console.log('This is the request:', req);
-  req.body.forEach(function(repo) {
-    db.getOrInsertRepo(repo);
-  });
+  var clientRepos = req.body;
+  db.findAllReposByUser(req.params.userid, function(docs) {
+    var serverRepos = docs.map(function(doc){
+      return doc.id;
+    });
+    var repoSplits = db.compareArrays(clientRepos, serverRepos);
+    
+    clientRepos.filter(function(doc){
+      return repoSplits.leftUinq.indexOf(doc.repoid) !== -1;
+    }).forEach(function(doc){
+      db.getOrInsertRepo(doc); // ignoring callback
+    });
+
+    clientRepos.filter(function(doc){
+      return repoSplits.rightUinq.indexOf(doc.repoid) !== -1; 
+    }).forEach(function(doc){
+      db.removeUserFromRepo(doc.userid, doc.repoid, doc.html_url);
+    });
+  }); 
+  
   res.status(201).send('data received. thank you');
 });
 

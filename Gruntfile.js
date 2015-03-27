@@ -91,7 +91,7 @@ module.exports = function(grunt) {
           'gitListener/**/*.js',
           'server/**/*.js'
         ],
-        tasks: ['jshint', 'test']
+        tasks: ['jshint']
       },
     },
   });

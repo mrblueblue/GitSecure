@@ -1,7 +1,6 @@
-
 'use strict';
 
-angular.module('main',['ngMaterial'])
+window.angular.module('main',['ngMaterial'])
 .controller('mainController', function($scope, mainly, $http){
 
   // Tab Functionality for Material Design
@@ -25,9 +24,9 @@ angular.module('main',['ngMaterial'])
   var checkRepos = function(collection){
     var checkboxes = $('input:checkbox');
     checkboxes.each(function(index, repo){
-      repo = $(repo)
+      repo = $(repo);
       var repoid = $(repo).attr('data-repo-id');
-      console.log('this is collection', collection)
+      console.log('this is collection', collection);
       if ( collection.indexOf(repoid) !== -1 ){
         repo.prop('checked', true);
       }
@@ -40,16 +39,16 @@ angular.module('main',['ngMaterial'])
       $scope.repos = data;
       $http.get('/repos/' + userid).success(function(data){
         checkRepos(data);
-      })
+      });
     });
   };
 
-  $scope.submit = function(e){
+  $scope.submit = function() { //ignoring event
     var checked = $(':checked');
     var repos = [];
     checked.each(function(index, repo){
       var data = {};
-      repo = $(repo)
+      repo = $(repo);
       data.userid = repo.attr('data-user-id');
       data.repoid = repo.attr('data-repo-id');
       data.name = repo.attr('data-repo-name');
@@ -67,8 +66,8 @@ angular.module('main',['ngMaterial'])
 
     });
 
-    $http.post('/repos/'+$rootScope.userid, repos).success(function(data){
-      console.log("response received: ", data);
+    $http.post('/repos/' + $rootScope.userid, repos).success(function(data){
+      console.log('response received:', data);
     });    
   };
 
@@ -80,7 +79,7 @@ angular.module('main',['ngMaterial'])
     var url = 'https://api.github.com/users/' + $rootScope.username + '/repos';
     $http.get(url)
       .success(function(data) { // unused status, headers, config
-        console.log('this is the userid', $rootScope.userid)
+        console.log('this is the userid', $rootScope.userid);
         callback(data, $rootScope.userid);
       })
       .error(function(data) { //unused status, headers, config
@@ -93,11 +92,11 @@ angular.module('main',['ngMaterial'])
     $http.get('/results/'+$rootScope.userid)
       .success(function(data){
         console.log('here are the results: ', data);
-        callback(data)
+        callback(data);
       })
       .error(function(data){
         console.log('error getting ther results: ', data);
-      })
+      });
   };
 
   return {
