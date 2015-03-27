@@ -65,9 +65,9 @@ app.post('/repos', function(req, res){
 //   "parse_results" : "",
 //   }
 // }
-app.get('/results', function(req, res){
+app.get('/results/:userid', function(req, res){
   console.log('This is the request:', req);
-  db.findAllReposByUser(req.param('userid'), function(docs) {
+  db.findAllReposByUser(req.param,userid, function(docs) {
     var collection = docs.map(function(doc){
       delete doc.users;
       return doc;
