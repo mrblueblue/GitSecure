@@ -41,17 +41,15 @@ app.get('/repos', function(req, res){
     ];
 
   res.status(201).send(collection)
-
-  // console.log("This is the response: ", res)
+  console.log("This is the response: ", res)
 });
 
 // POST route for sending to DB all repos user wants to subscribe
 
 app.post('/repos', function(req, res){
 
-  // req.body is an object (document)
-  // it can also be made into an object {data: repos}
-  // where repos is an array of objects (documents)
+  // req.body is an array of repos
+  // where repos is an array of repos (document objects)
 
   console.log("This is the request: ", req.body)
 
