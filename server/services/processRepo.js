@@ -89,7 +89,7 @@ var processRepo = function(repoID) {
             } catch (e) {
               console.log('apikey parsing error!: ', e);
               var parseResults = {'error': 'apikey parsing failed... sorry!'};
-              repos.findAndModify({_id: repoID}, {$set: {'repo_info.parse_results': parseResults}}, function() {
+              repos.findAndModify({repo_id: repoID}, {$set: {'repo_info.parse_results': parseResults}}, function() {
                 console.log('record updated with parseResults...');
                 callback(null, 'parse');
               });
