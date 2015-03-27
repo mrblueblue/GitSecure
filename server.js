@@ -28,11 +28,12 @@ app.get('/numbers', function(req, res){
 
 // GET route for getting all subscribed repos
 
-app.get('/getRepos', function(req, res){
+app.get('/repos', function(req, res){
 
   // response as an array of repo ids that
   // the user has subscribed to
 
+  // Mock Data
   var collection = [
     '28679810', 
     '32131374',
@@ -46,7 +47,7 @@ app.get('/getRepos', function(req, res){
 
 // POST route for sending to DB all repos user wants to subscribe
 
-app.post('/submitRepos', function(req, res){
+app.post('/repos', function(req, res){
 
   // req.body is an object (document)
   // it can also be made into an object {data: repos}
@@ -54,7 +55,7 @@ app.post('/submitRepos', function(req, res){
 
   console.log("This is the request: ", req.body)
 
-  res.send({hello:'hello'})
+  res.status(201).send('data received. thank you')
 
   // console.log("This is the response: ", res)
 });
