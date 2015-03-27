@@ -83,6 +83,7 @@ app.post('/repos/', function(req, res){
     console.log('clientRepos:',clientRepos);
     console.log('checkedClientRepos:',checkedClientRepos);
     console.log('uncheckedClientRepos:',uncheckedClientRepos);
+    console.log('req.body:',req.body);
     console.log('DEBUG--------------------');
 
 
