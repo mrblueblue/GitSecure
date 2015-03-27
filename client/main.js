@@ -63,44 +63,6 @@ window.angular.module('GitSecure', [
       data: {requireLogin: true},
       resolve: {check: authorize}
     });
-
-/*
-    retire.js ->
-
-      returns: 
-    [{"results":[{"component":"qs","version":"0.5.6","parent":{"component":"tiny-lr-fork","version":"0.0.5","parent":{"component":"grunt-contrib-watch","version":"0.6.1","parent":{"component":"GitSecure","version":"0.0.1"},"level":1},"level":2},"level":3,"vulnerabilities":["https://nodesecurity.io/advisories/qs_dos_extended_event_loop_blocking"]}]}]
-
-
-    scan.js ->
-      node scanner.js -t [DIR] -o [OUTPUT FILE NAME]
-
-      example output from scan.js
-
-      { '../2015-02-twittler/data_generator.js': 
-       [ { type: 'finding',
-           rule: [Object],
-           filename: '../2015-02-twittler/data_generator.js',
-           line: 55,
-           col: undefined },
-         filename: '../2015-02-twittler/data_generator.js' ],
-      '../2015-02-twittler/jquery.js': 
-       [ { type: 'finding',
-           rule: [Object],
-           filename: '../2015-02-twittler/jquery.js',
-           line: 358,
-           col: undefined },
-
-
-    api_key parsing output
-    [{\"index\":8420,\"match\":\" = containerVisibil\",\"gitId\":\"55135\",\"key_type\":\"flikrSecret\"}]
-*/
-
-
-
-
-
-
-
 })
 
 // Begin the'run block,' where code gets executed after the 
@@ -127,8 +89,9 @@ window.angular.module('GitSecure', [
         $rootScope.isAuth = true;
         $state.go('main');
       }
-    }).
-    error(function() { // unused data, status, headers, config
+    })
+    .error(function() { // unused data, status, headers, config
+      console.error('error')
     });
 
   // State Change Listener
