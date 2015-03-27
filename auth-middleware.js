@@ -11,18 +11,15 @@ var serverConfig = require('./serverConfig.js');
 module.exports = function(app){
 
   app.get('/',function(req, res, next){
-    console.log('hello');
     if (req.user || req.session.passport !== {}) {
-      console.log('in the checkUser utility function, about to execute next()');
       next();
     } else {
-      console.log('in the checkUser utility function, about to have the response object send "0"');
       res.send('0');
     }
   });
 
   passport.serializeUser(function(user, done){
-    console.log('user about to be serialized', user);
+    // console.log('user about to be serialized', user);
     done(null, user);
   });
 
@@ -49,8 +46,8 @@ module.exports = function(app){
 
       // Logging for Testing
 
-      console.log('accessToken', accessToken);
-      console.log('profile', profile);
+      // console.log('accessToken', accessToken);
+      // console.log('profile', profile);
 
       // Find Document with matching userid and then save access token
 
@@ -60,7 +57,7 @@ module.exports = function(app){
           doc.userid = profile.id;
         }
         doc.accessToken = accessToken;
-        console.log('THIS IS THE DOC', doc);
+        // console.log('THIS IS THE DOC', doc);
         return done(null, profile);
       });
 

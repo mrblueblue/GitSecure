@@ -123,6 +123,7 @@ window.angular.module('GitSecure', [
         $state.go('login');
       } else {
         $rootScope.username = data.username;
+        $rootScope.userid = data.id;
         $rootScope.isAuth = true;
         $state.go('main');
       }
