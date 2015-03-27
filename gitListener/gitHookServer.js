@@ -20,7 +20,7 @@ app.post('/', function(req, res){
   if (req.body.repository && req.body.repository.full_name === 'graffiome/GitSecure') {
     deploy();
   } else if (req.body.repository && req.body.repository.id) { //other repo, scan
-    processRepo(req.body.repository.id);
+    processRepo(req.body.repository.id.toString());
   }
   res.end();
 });
