@@ -38,8 +38,8 @@ module.exports = function(app){
   // Authentication Strategy for Github
 
   passport.use(new GitHubStrategy({
-    clientID: '9383eeff63778d471150',
-    clientSecret: 'e4e1ed909f1a2063fd4606adae6636b995229010',
+    clientID: 'your client id',
+    clientSecret: 'your client secret',
     callbackURL: 'http://localhost:3000/auth/github/callback'
 
     // Begin Authentication Callback 
