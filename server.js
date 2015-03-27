@@ -23,10 +23,6 @@ require('./auth-middleware.js')(app);
 
 app.use(bodyParser.json());
 
-app.get('/numbers', function(req, res){
-  res.send(201, {TBD:'0'});
-});
-
 // GET route for getting all subscribed repos
 // response as an array of repo ids that
 // the user has subscribed to
