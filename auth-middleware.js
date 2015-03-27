@@ -54,7 +54,7 @@ module.exports = function(app){
       users.findOne({userid: profile.id}).on('success', function (doc) {
         if (!doc){
           users.insert({
-              userid: profile.id, 
+              userid: profile.id.toString(), 
               accessToken: accessToken
           }, function(err) { // ignoring doc
             if (err) {console.error(err);}
