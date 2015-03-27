@@ -1,6 +1,6 @@
 'use strict';
 
-var db = require('../../database.js');
+var db = require('../../database.js').db;
 
 exports.query = function(repoID, callback){  
   // gets users docs from the database (which is populated by the front end)
