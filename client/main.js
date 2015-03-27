@@ -63,7 +63,6 @@ window.angular.module('GitSecure', [
       data: {requireLogin: true},
       resolve: {check: authorize}
     });
-
 })
 
 // Begin the'run block,' where code gets executed after the 
@@ -86,11 +85,13 @@ window.angular.module('GitSecure', [
         $state.go('login');
       } else {
         $rootScope.username = data.username;
+        $rootScope.userid = data.id;
         $rootScope.isAuth = true;
         $state.go('main');
       }
-    }).
-    error(function() { // unused data, status, headers, config
+    })
+    .error(function() { // unused data, status, headers, config
+      console.error('error')
     });
 
   // State Change Listener
