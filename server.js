@@ -37,7 +37,6 @@ app.get('/repos', function(req, res){
       return doc.id;
     });
     res.status(201).send(collection);
-    console.log('This is the response:', res);
   }); 
 });
 
@@ -56,7 +55,6 @@ app.post('/repos', function(req, res){
     db.getOrInsertRepo(repo);
   });
   res.status(201).send('data received. thank you');
-  console.log('This is the response:', res);
 });
 
 // GET route for retrieving all repos reports for a user
@@ -79,6 +77,5 @@ app.get('/results', function(req, res){
       return doc;
     });
     res.status(201).send(collection);
-    console.log('This is the response:', res);
   }); 
 });
