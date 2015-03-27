@@ -34,6 +34,7 @@ app.get('/repos/:userid', function(req, res){
       return doc.repo_id;
     });
     console.log('Sending:', collection);
+
     res.status(201).send(collection);
   }); 
 });
@@ -51,6 +52,8 @@ app.get('/repos/:userid', function(req, res){
 
 app.post('/repos/', function(req, res){
 
+  console.log(req.body[0].userid)
+  console.log(typeof req.body[0].userid)
   //console.log('This is the request:', req);
   db.findAllReposByUser(req.body[0].userid, function(docs) {
     var serverRepos = docs;
