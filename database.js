@@ -2,6 +2,7 @@
 
 var uri = process.env.DBURI || '127.0.0.1:27017/development';
 var db = exports.db = require('monk')(uri);
+var registerRepo = require('./gitListener/gitHooks.js').registerRepo;
 
 /*
   Repos collection document structure:  
@@ -41,6 +42,38 @@ exports.compareArrays = function (leftArray, rightArray) {
   };
 };
 
+var getAuthToken = function(userid, callback) {
+  db.get('users').findOne({userid: userid}, function(err, doc){
+    if (err) {
+      console.log(err);
+    } else {
+      callback(doc.accessToken);
+    }
+  });
+};
+
+var insertRepo = function(params, callback) {
+  var repo = {
+    'repo_id': params.repoid,
+    'repo_info': {
+      'git_url': params.git_url,
+      'name': params.name,
+      'scan_results': {},
+      'retire_results': {},
+      'parse_results': {},
+      'users': [params.userid], 
+    }
+  };
+
+  db.get('Repos').insert(repo, function(err, doc) {
+    if (err) {
+      console.error(err);
+    } else {
+      callback(doc);
+    }
+  });
+};
+
 exports.findAllReposByUser = function(userID, callback) {
   db.get('Repos').find({'repo_info.users': userID})
     .on('complete', function(err, docs) {
@@ -75,4 +108,36 @@ exports.userInRepo = function(userID, repoID, callback) {
       }
 
     });
+};
+
+// get or add repo
+// Params {
+//  userid: userid,
+//  repoid: repoid,
+//  name: name,
+//  html_url: html_url,
+//  git_url, git_url,
+// }
+exports.getOrInsertRepo = function(params, callback) {
+  var repos = db.get('Repos');
+  repos.findOne({repo_id: params.repoid}, function(err, doc){
+    if (err) {
+      console.error(err);
+    } else {
+      if (doc) {
+        exports.userInRepo(params.userid, params.repoid, callback);
+      } else {
+        
+        getAuthToken(params.userid, function(token){
+          if (token) {
+            registerRepo(params.html_url, token);
+          }
+        });
+              
+        insertRepo(params, function() { //ignoring doc
+          exports.userInRepo(params.userid, params.repoid, callback);
+        });
+      }
+    }
+  });
 };
