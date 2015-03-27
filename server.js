@@ -75,7 +75,8 @@ app.get('/results', function(req, res){
   console.log('This is the request:', req);
   db.findAllReposByUser(req.param('userid'), function(docs) {
     var collection = docs.map(function(doc){
-      return delete doc.users;
+      delete doc.users;
+      return doc;
     });
     res.status(201).send(collection);
     console.log('This is the response:', res);
