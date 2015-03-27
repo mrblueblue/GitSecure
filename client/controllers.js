@@ -79,8 +79,8 @@ window.angular.module('main',['ngMaterial'])
     var url = 'https://api.github.com/users/' + $rootScope.username + '/repos';
     $http.get(url)
       .success(function(data) { // unused status, headers, config
-        console.log('this is the userid', $rootScope.userid);
-        callback(data, $rootScope.userid);
+        console.log('this is the userid', $rootScope.userid.toString());
+        callback(data, $rootScope.userid.toString());
       })
       .error(function(data) { //unused status, headers, config
         console.log('error getting github repos!: ', data);
