@@ -36,7 +36,6 @@ exports.findAllReposByUser = function(userID, callback) {
         if (callback) {
           callback(docs);
         }
-        console.log('reposbyuser query worked: ', docs);
       }
     });
 };
