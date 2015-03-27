@@ -7,7 +7,7 @@ var retireScan = function(dir) {
 
   // returning the 2nd value in the output object
   // according to the docs this should be stderr (error value), but it's actually where our values are :D
-  console.log('retireScan finished...');
+  console.log('RICH CHECK retireScan finished... resultsObj: ', results.output);
   return results.output[2];
 };
 
