@@ -13,7 +13,7 @@ var registerRepo = require('./gitListener/gitHooks.js').registerRepo;
     "scan_results" : "",
     "retire_results" : "",
     "parse_results" : "",
-    "users" : [6412038], 
+    "users" : [], 
     }
   }
 */
@@ -45,7 +45,7 @@ exports.compareArrays = function (leftArray, rightArray) {
 var getAuthToken = function(userid, callback) {
   db.get('users').findOne({userid: userid}, function(err, doc){
     if (err) {
-      console.log(err);
+      console.error(err);
     } else {
       callback(doc.accessToken);
     }
@@ -78,7 +78,7 @@ exports.findAllReposByUser = function(userID, callback) {
   db.get('Repos').find({'repo_info.users': userID})
     .on('complete', function(err, docs) {
       if (err) {
-        console.log('find all repos by user failed with error!: ', err);
+        console.error('find all repos by user failed with error!: ', err);
       } else {
         if (callback) {
           callback(docs);
@@ -92,7 +92,7 @@ exports.userInRepo = function(userID, repoID, callback) {
   db.get('Repos').findOne({'repo_id': repoID, 'repo_info.users': userID})
     .on('complete', function(err, doc) {
       if (err) {
-        console.log('add user to repo failed with error!: ', err);
+        console.error('add user to repo failed with error!: ', err);
       } else {
         // if there isn't a record with that repoID and the specified userID add it
         if (!doc) {
@@ -144,7 +144,6 @@ exports.getOrInsertRepo = function(params, callback) {
 
 exports.removeRepo = function(userId, repoId, html_url) {
   var repos = db.get('Repos');
-
   getAuthToken(userId, function(token) {
     registerRepo(html_url, token, true);
   });
@@ -152,6 +151,28 @@ exports.removeRepo = function(userId, repoId, html_url) {
   repos.remove({'repo_id': repoId}, function(error){
     if (error) {
       console.error(error);
+    }
+  });
+};
+
+// look for a repo and remove the given user if they exist,
+exports.removeUserFromRepo = function(userID, repoID, html_url) {
+  var repos = db.get('Repos');
+  // remove the user from the users array
+  repos.update({repo_id: repoID}, {$pull: {'repo_info.users': userID}}, function(err) { // doc is 2nd arg to callback
+    if (err) {
+      console.error(err);
+    } else {
+      // get the doc we just updated
+      repos.findOne({repo_id: repoID}, function(err, doc) {
+        // if the doc has no users, remove it
+        if (doc.repo_info.users.length === 0) {
+          // call fn to remove the repo and hooks
+          exports.removeRepo(userID, repoID, html_url); // callback?
+        } else { // otherwise we're done
+          console.log('user removed from repo and repo still exists'); // callback?
+        }
+      });
     }
   });
 };
