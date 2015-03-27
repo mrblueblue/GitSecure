@@ -73,6 +73,15 @@ app.post('/repos/', function(req, res){
     var newRepoIds = db.compareArrays(checkedClientRepoIds, serverRepoIds).leftUniq;
     var removedRepoIds = db.compareArrays(uncheckedClientRepoIds, serverRepoIds).intersect;
 
+    console.log('DEBUG++++++++++++++++++++');
+    console.log('serverRepoIds:',serverRepoIds);
+    console.log('checkedClientRepoIds:',checkedClientRepoIds);
+    console.log('uncheckedClientRepoIds:',uncheckedClientRepoIds);
+    console.log('newRepoIds:',newRepoIds);
+    console.log('removedRepoIds:',removedRepoIds);
+    console.log('DEBUG--------------------');
+
+
     checkedClientRepos.forEach(function(repo){
       if (newRepoIds.indexOf(repo.repoid) !== -1) {
         console.log('Inserting repo/user');
