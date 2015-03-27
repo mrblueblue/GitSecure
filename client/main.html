@@ -5,7 +5,7 @@
     <button ng-click="populateRepos()">Get GitHub Repos!</button>
     <ul>
       <li ng-repeat="repo in repos">
-        <input ng-model="check" ng-change="stateChanged()" type="checkbox" data-repo-id="{{ repo.id }}" data-git-url="{{ repo.git_url }}" data-url="{{repo.html_url}}" data-user-id="{{ repo.owner.id }}" data-repo-name="{{ repo.name }}"/>
+        <input type="checkbox" data-repo-id="{{ repo.id }}" data-git-url="{{ repo.git_url }}" data-url="{{repo.html_url}}" data-user-id="{{ repo.owner.id }}" data-repo-name="{{ repo.name }}"/>
         {{ repo.name }}
         <br>
       </li>
