@@ -1,7 +1,7 @@
 'use strict';
 
-var db = require('./database.js');
-var users = db.get('users').db;
+var db = require('./database.js').db;
+var users = db.get('users');
 
 var session = require('express-session');
 var passport = require('passport');
