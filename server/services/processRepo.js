@@ -1,7 +1,7 @@
 'use strict';
 
 var async = require('async');
-var db = require('../../database.js');
+var db = require('../../database.js').db;
 var parseService = require('./parsing/readFilesForParsing.js');
 var downloadService = require('./downloading/gitHubRepoGrabber.js');
 var queryService = require('./query.js');
