@@ -6,6 +6,7 @@ var users = db.get('users');
 var session = require('express-session');
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
+var serverConfig = require('./serverConfig.js');
 
 module.exports = function(app){
 
@@ -38,9 +39,9 @@ module.exports = function(app){
   // Authentication Strategy for Github
 
   passport.use(new GitHubStrategy({
-    clientID: 'your client id',
-    clientSecret: 'your client secret',
-    callbackURL: 'http://localhost:3000/auth/github/callback'
+    clientID: serverConfig.clientID,
+    clientSecret: serverConfig.clientSecret,
+    callbackURL: serverConfig.callbackURL
 
     // Begin Authentication Callback 
 
