@@ -44,27 +44,41 @@ window.angular.module('main',['ngMaterial'])
   };
 
   $scope.submit = function() { //ignoring event
-    var checked = $(':checked');
+    var checked = [] ;
     var repos = [];
-    checked.each(function(index, repo){
+
+    $(':checked').each(function(index, repo){
+      repo = $(repo);
+      checked.push(repo.attr('data-repo-id'));
+    });
+
+    $('input').each(function(index, repo){
       var data = {};
       repo = $(repo);
+
       data.userid = repo.attr('data-user-id');
       data.repoid = repo.attr('data-repo-id');
       data.name = repo.attr('data-repo-name');
       data.html_url = repo.attr('data-url');
       data.git_url = repo.attr('data-git-url');
+      data.checked = false;
+
+      if ( checked.indexOf(data.repoid) !== -1 ){
+        data.checked = true;
+      }
+
       repos.push(data);
+    });
+
       // Example data object
 
       //  userid: userid,
       //  repoid: repoid,
       //  name: name,
       //  html_url: html_url,
-      //  git_url, git_url,
+      //  git_url: git_url,
+      //  checked: true/false
       // }
-
-    });
 
     $http.post('/repos/', repos).success(function(data){
       console.log('response received:', data);
