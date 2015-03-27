@@ -58,13 +58,13 @@ app.post('/repos/', function(req, res){
     var repoSplits = db.compareArrays(clientRepos, serverRepos);
     
     clientRepos.filter(function(doc){
-      return repoSplits.leftUinq.indexOf(doc.repoid) !== -1;
+      return repoSplits.leftUniq.indexOf(doc.repoid) !== -1;
     }).forEach(function(doc){
       db.getOrInsertRepo(doc); // ignoring callback
     });
 
     clientRepos.filter(function(doc){
-      return repoSplits.rightUinq.indexOf(doc.repoid) !== -1; 
+      return repoSplits.rightUniq.indexOf(doc.repoid) !== -1; 
     }).forEach(function(doc){
       db.removeUserFromRepo(doc.userid, doc.repoid, doc.html_url);
     });
