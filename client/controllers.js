@@ -1,8 +1,16 @@
 
 'use strict';
 
-angular.module('main',[])
+angular.module('main',['ngMaterial'])
 .controller('mainController', function($scope, mainly, $http){
+
+    $scope.next = function() {
+      $scope.data.selectedIndex = Math.min($scope.data.selectedIndex + 1, 2) ;
+    };
+
+    $scope.previous = function() {
+      $scope.data.selectedIndex = Math.max($scope.data.selectedIndex - 1, 0);
+    };
 
   // Checkmarks a repo given a list of repos user has subscribed to
   var checkRepos = function(collection){

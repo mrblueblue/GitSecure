@@ -1,15 +1,36 @@
 <div class="container" id="main">
-  <h2>Main</h2>
-  <h3>List of Repos</h3>
-  <div ng-controller="mainController">
-    <button ng-click="populateRepos()">Get GitHub Repos!</button>
-    <ul>
-      <li ng-repeat="repo in repos">
-        <input type="checkbox" data-repo-id="{{ repo.id }}" data-git-url="{{ repo.git_url }}" data-url="{{repo.html_url}}" data-user-id="{{ repo.owner.id }}" data-repo-name="{{ repo.name }}"/>
-        {{ repo.name }}
-        <br>
-      </li>
-    </ul>
-    <button ng-show="repos" ng-click="submit()">Submit Repos for Analysis!</button>
-  </div>
+
+ <div ng-controller="mainController" class="tabsdemoStaticTabs sample">
+
+    <md-tabs class="md-accent" md-selected="data.selectedIndex">
+      <md-tab id="tab1">
+        <md-tab-label>Main</md-tab-label>
+        <md-tab-template>
+          <h5 class="md-subhead">Welcome to Git Secure</h5>
+          <p>Deep v before they sold out PBR disrupt, trust fund cray iPhone hoodie meh sustainable American Apparel blog readymade sartorial Thundercats. Tilde forage selfies, chia paleo tattooed lo-fi. Cray direct trade farm-to-table American Apparel, disrupt DIY Truffaut you probably haven't heard of them. Sustainable hella VHS tattooed selfies blog Wes Anderson. Four dollar toast listicle quinoa, skateboard forage distillery literally fanny pack organic craft beer stumptown Kickstarter mixtape ugh migas. Meh pour-over roof party fap, bespoke PBR Pinterest leggings Bushwick cred trust fund bicycle rights. Chillwave pork belly skateboard next level plaid, American Apparel 3 wolf moon biodiesel narwhal Etsy DIY Blue Bottle.</p>
+
+        </md-tab-template>
+      </md-tab>
+      <md-tab id="tab2">
+        <md-tab-label ng-click="populateRepos()" >Subscriptions</md-tab-label>
+        <md-tab-template>
+        <button ng-show="repos" ng-click="submit()">Submit Repos for Analysis!</button>
+         <ul>
+           <li ng-repeat="repo in repos">
+             <input type="checkbox" data-repo-id="{{ repo.id }}" data-git-url="{{ repo.git_url }}" data-url="{{repo.html_url}}" data-user-id="{{ repo.owner.id }}" data-repo-name="{{ repo.name }}"/>
+             {{ repo.name }}
+             <br>
+           </li>
+         </ul>
+        </md-tab-template>
+      </md-tab>
+      <md-tab id="tab3">
+        <md-tab-label>Results</md-tab-label>
+        <md-tab-template>
+          View for Item #3 <br/>
+          data.selectedIndex = 2;
+        </md-tab-template>
+      </md-tab>
+    </md-tabs>
+
 </div>
