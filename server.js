@@ -1,6 +1,6 @@
 'use strict';
 
-var db = require('./database.js').db;
+var db = require('./database.js');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
