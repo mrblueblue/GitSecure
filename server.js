@@ -52,7 +52,9 @@ app.get('/repos', function(req, res){
 // }
 app.post('/repos', function(req, res){
   console.log('This is the request:', req);
-  db.getOrInsertRepo(req.body);
+  req.body.forEach(function(repo) {
+    db.getOrInsertRepo(repo);
+  });
   res.status(201).send('data received. thank you');
   console.log('This is the response:', res);
 });
