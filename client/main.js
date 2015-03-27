@@ -3,7 +3,8 @@
 window.angular.module('GitSecure', [
   'main',
   'ui.router',
-  'ngRoute'
+  'ngRoute',
+  'ngMaterial'
 ])
 
 // Begin App Configuration
