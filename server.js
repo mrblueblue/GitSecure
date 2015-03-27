@@ -57,15 +57,22 @@ app.post('/repos/', function(req, res){
     });
     var repoSplits = db.compareArrays(clientRepos, serverRepos);
     console.log('repoSplits', repoSplits.leftUniq, repoSplits.rightUniq);
+    var leftIds = repoSplits.leftUniq.map(function(doc){
+      return doc.id;
+    });
+    var rightIds = repoSplits.rightUniq.map(function(doc){
+      return doc.id;
+    });
+
     clientRepos.filter(function(doc){
-      return repoSplits.leftUniq.indexOf(doc.repoid) !== -1;
+      return leftIds.indexOf(doc.repoid) !== -1;
     }).forEach(function(doc){
       console.log('Inserting repo/user');
       db.getOrInsertRepo(doc); // ignoring callback
     });
 
     clientRepos.filter(function(doc){
-      return repoSplits.rightUniq.indexOf(doc.repoid) !== -1; 
+      return rightIds.indexOf(doc.repoid) !== -1; 
     }).forEach(function(doc){
       console.log('Removing repo/user');
       db.removeUserFromRepo(doc.userid, doc.repoid, doc.html_url);
