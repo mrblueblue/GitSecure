@@ -31,8 +31,9 @@ app.get('/repos/:userid', function(req, res){
   //console.log('This is the request:', req);
   db.findAllReposByUser(req.params.userid, function(docs) {
     var collection = docs.map(function(doc){
-      return doc.id;
+      return doc.repo_id;
     });
+    console.log('Sending:', collection);
     res.status(201).send(collection);
   }); 
 });
@@ -73,18 +74,18 @@ app.post('/repos/', function(req, res){
     var newRepoIds = db.compareArrays(checkedClientRepoIds, serverRepoIds).leftUniq;
     var removedRepoIds = db.compareArrays(uncheckedClientRepoIds, serverRepoIds).intersect;
 
-    console.log('DEBUG++++++++++++++++++++');
-    console.log('serverRepoIds:',serverRepoIds);
-    console.log('checkedClientRepoIds:',checkedClientRepoIds);
-    console.log('uncheckedClientRepoIds:',uncheckedClientRepoIds);
-    console.log('newRepoIds:',newRepoIds);
-    console.log('removedRepoIds:',removedRepoIds);
-    console.log('serverRepos:',serverRepos);
-    console.log('clientRepos:',clientRepos);
-    console.log('checkedClientRepos:',checkedClientRepos);
-    console.log('uncheckedClientRepos:',uncheckedClientRepos);
-    console.log('req.body:',req.body);
-    console.log('DEBUG--------------------');
+    // console.log('DEBUG++++++++++++++++++++');
+    // console.log('serverRepoIds:',serverRepoIds);
+    // console.log('checkedClientRepoIds:',checkedClientRepoIds);
+    // console.log('uncheckedClientRepoIds:',uncheckedClientRepoIds);
+    // console.log('newRepoIds:',newRepoIds);
+    // console.log('removedRepoIds:',removedRepoIds);
+    // console.log('serverRepos:',serverRepos);
+    // console.log('clientRepos:',clientRepos);
+    // console.log('checkedClientRepos:',checkedClientRepos);
+    // console.log('uncheckedClientRepos:',uncheckedClientRepos);
+    // console.log('req.body:',req.body);
+    // console.log('DEBUG--------------------');
 
 
     checkedClientRepos.forEach(function(repo){
