@@ -56,8 +56,6 @@ angular.module('main',[])
 .factory('mainly', function($rootScope, $http){
   // function that gets repos for curr user
   var getRepos = function(callback) {
-    console.log('getRepos called.');
-    console.log('rootscope: ', $rootScope);
     var url = 'https://api.github.com/users/' + $rootScope.username + '/repos';
     console.log('url used: ', url);
     $http.get(url)
