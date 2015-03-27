@@ -51,7 +51,7 @@ module.exports = function(app){
 
       // Find Document with matching userid and then save access token
 
-      users.findOne({userid: profile.id}).on('success', function (doc) {
+      users.findOne({userid: profile.id.toString()}).on('success', function (doc) {
         if (!doc){
           users.insert({
               userid: profile.id.toString(), 
