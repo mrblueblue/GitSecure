@@ -3,7 +3,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var util = require('./server/utilities.js');
 var fileSystemUtilities = require('./server/services/fileSystem/utilities.js');
 
 var server = app.listen(3000, function(){
@@ -24,6 +23,5 @@ require('./auth-middleware.js')(app);
 app.use(bodyParser.json());
 
 app.get('/numbers', function(req, res){
-  var counts = util.getCounts();
-  res.send(201, counts);
+  res.send(201, {TBD:'0'});
 });
