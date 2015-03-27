@@ -5,12 +5,11 @@
     <button ng-click="populateRepos()">Get GitHub Repos!</button>
     <ul>
       <li ng-repeat="repo in repos">
-        <input type="checkbox"/>
+        <input ng-model="check" ng-change="stateChanged()" type="checkbox" id="{{ repo.html_url }}"/>
         {{ repo.name }}
         <br>
-        {{ repo.html_url }}
       </li>
     </ul>
-    <button ng-show="repos" ng-click="">Submit Repos for Analysis!</button>
+    <button ng-show="repos" ng-click="submit()">Submit Repos for Analysis!</button>
   </div>
 </div>
