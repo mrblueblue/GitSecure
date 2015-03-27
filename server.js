@@ -26,6 +26,14 @@ app.get('/numbers', function(req, res){
   res.send(201, {TBD:'0'});
 });
 
+// GET route for getting all results from checks
+
+app.get('/results', function(req, res){
+  
+  res.status(201).send('data');
+
+});
+
 // GET route for getting all subscribed repos
 
 app.get('/repos', function(req, res){
