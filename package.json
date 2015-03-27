@@ -35,6 +35,6 @@
     "retire": "^0.4.0",
     "rimraf": "^2.3.2",
     "scanjs": "git://github.com/mozilla/scanjs",
-    "touch": "0.0.3",
+    "touch": "0.0.3"
   }
 }
