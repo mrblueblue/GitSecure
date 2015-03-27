@@ -47,11 +47,11 @@ app.get('/repos/:userid', function(req, res){
 //  git_url, git_url,
 // }
 
-app.post('/repos/:userid', function(req, res){
+app.post('/repos/', function(req, res){
 
   //console.log('This is the request:', req);
   var clientRepos = req.body;
-  db.findAllReposByUser(req.params.userid, function(docs) {
+  db.findAllReposByUser(req.body[0].userid, function(docs) {
     var serverRepos = docs.map(function(doc){
       return doc.id;
     });
