@@ -1,9 +1,8 @@
+
 'use strict';
 
-window.angular.module('main',[])
-.controller('mainController', function($scope, mainly){
-	$scope.email = 'happy';
-  //scope variable holding repos
+angular.module('main',[])
+.controller('mainController', function($scope, mainly, $http){
 
   $scope.populateRepos = function() {
     console.log('populate called!');
@@ -12,6 +11,14 @@ window.angular.module('main',[])
     });
   };
 
+  $scope.submit = function(e){
+    var checked = $(':checked');
+
+    checked.each(function(index, repo){
+      var url = repo.getAttribute('id');
+      $http.post('some-url', url);
+    })
+  };
 })
 .factory('mainly', function($rootScope, $http){
   // function that gets repos for curr user
