@@ -91,7 +91,7 @@ window.angular.module('GitSecure', [
       }
     })
     .error(function() { // unused data, status, headers, config
-      console.error('error')
+      console.error('error');
     });
 
   // State Change Listener

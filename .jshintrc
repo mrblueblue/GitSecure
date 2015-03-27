@@ -20,5 +20,6 @@
     "smarttabs": true,
     "white": true,
     "multistr": true,
-    "camelcase": false
+    "camelcase": false,
+    "jquery": true
 }
