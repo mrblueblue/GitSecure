@@ -27,6 +27,7 @@ angular.module('main',['ngMaterial'])
     checkboxes.each(function(index, repo){
       repo = $(repo)
       var repoid = $(repo).attr('data-repo-id');
+      console.log('this is collection', collection)
       if ( collection.indexOf(repoid) !== -1 ){
         repo.prop('checked', true);
       }
