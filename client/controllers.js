@@ -1,7 +1,36 @@
 'use strict';
 
 window.angular.module('main',['ngMaterial'])
-.controller('mainController', function($scope, mainly, $http){
+.controller('mainController', function($scope, mainly, $http, $interval, $mdDialog){
+
+  $scope.showAlert = function() {
+    var confirmation = $mdDialog.alert()
+      .title('Subscribed!')
+      .content('Hooks added to selected repos!')
+      .ok('Ok');
+    $mdDialog
+      .show( confirmation )
+      .finally(function() {
+        confirmation = undefined;
+    });
+  };
+
+  // Progress Bars
+
+  $scope.mode = 'query';
+      $scope.determinateValue = 30;
+      $scope.determinateValue2 = 30;
+      $interval(function() {
+        $scope.determinateValue += 1;
+        $scope.determinateValue2 += 1.5;
+        if ($scope.determinateValue > 100) {
+          $scope.determinateValue = 30;
+          $scope.determinateValue2 = 30;
+        }
+      }, 100, 0, true);
+      $interval(function() {
+        $scope.mode = ($scope.mode == 'query' ? 'determinate' : 'query');
+      }, 7200, 0, true);
 
   // Tab Functionality for Material Design
 

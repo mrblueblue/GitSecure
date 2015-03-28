@@ -12,7 +12,7 @@
       <md-tab id="tab2">
         <md-tab-label class="md-subhead" ng-click="populateRepos()" >Subscriptions</md-tab-label>
         <md-tab-template>
-          <md-button class="md-raised md-primary" ng-show="repos" ng-click="submit()">Submit Repos for Analysis!</md-button>
+          <md-button class="md-raised md-primary" ng-show="repos" ng-click="submit(); showAlert()">Submit Repos for Analysis!</md-button>
          <ul>
            <li class="md-body-1" ng-repeat="repo in repos">
              <input type="checkbox" data-repo-id="{{ repo.id }}" data-git-url="{{ repo.git_url }}" data-url="{{repo.html_url}}" data-user-id="{{ repo.owner.id }}" data-repo-name="{{ repo.name }}"/>
@@ -25,6 +25,12 @@
       <md-tab id="tab3">
         <md-tab-label class="md-subhead" ng-click="getResults()">Results</md-tab-label>
         <md-tab-template>
+        <div layout="column" layout-margin style="padding:25px;">
+          <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+          <md-progress-linear class="md-warn" md-mode="buffer" value="{{determinateValue}}" md-buffer-value="{{determinateValue2}}">
+          </md-progress-linear>
+          <md-progress-linear class="md-accent" md-mode="{{mode}}" value="{{determinateValue}}"></md-progress-linear>
+        </div>
           <ul>
             <li class="md-body-1" ng-repeat="data in results">
               {{ repo.name }}
