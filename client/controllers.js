@@ -136,7 +136,7 @@ window.angular.module('main',['ngMaterial'])
 
   var getResults = function(callback){
 
-    $http.get('/results/'+$rootScope.userid)
+    $http.get('/results/'+$rootScope.userid.toString())
       .success(function(data){
         console.log('here are the results: ', data);
         callback(data);
