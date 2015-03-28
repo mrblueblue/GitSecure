@@ -39,8 +39,11 @@ var processRepo = function(repoID) {
             }
 
             // add scan results to the DB
-            repos.findAndModify({query: {repo_id: repoID}, update: {$set: {'repo_info.scan_results': JSON.stringify(scanResults)}}}, function() {
-              console.log('record updated with scanResults...');
+            repos.findAndModify({query: {repo_id: repoID}, new: true, update: {$set: {'repo_info.scan_results': JSON.stringify(scanResults)}}}, function(err, doc) {
+              if (err) {
+                console.error(err);
+              }
+              console.log('record updated with scanResults...:', doc);
               callback(null, 'scan');
             });
           },
@@ -62,11 +65,11 @@ var processRepo = function(repoID) {
             }
 
             // add retire results to the DB
-            repos.findAndModify({query: {repo_id: repoID}, update: {$set: {'repo_info.retire_results': retireResults}}}, function(err) {
+            repos.findAndModify({query: {repo_id: repoID}, new: true, update: {$set: {'repo_info.retire_results': retireResults}}}, function(err, doc) {
               if (err) {
                 console.log('db err: ', err);
               }
-              console.log('record updated with retireResults...');
+              console.log('record updated with retireResults...: ', doc);
               callback(null, 'retire');
             });
           },
@@ -80,8 +83,11 @@ var processRepo = function(repoID) {
                   parseResults = {'clear': 'Congrats, nothing found!'};
                 }
 
-                repos.findAndModify({query: {repo_id: repoID}, update: {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}}, function() {
-                  console.log('record updated with parseResults...');
+                repos.findAndModify({query: {repo_id: repoID}, new: true, update: {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}}, function(err, doc) {
+                  if (err) {
+                    console.error(err);
+                  }
+                  console.log('record updated with parseResults...:', doc);
                   callback(null, 'parse');
                 });
               });
