@@ -28,7 +28,8 @@ module.exports = function(grunt) {
         'auth-middleware.js',
         'client/**/*.js',
         'gitListener/**/*.js',
-        'server/**/*.js'
+        'server/**/*.js',
+        '!server/services/git_data/**'
       ],
       options: {force: 'true', jshintrc: true}
     },
@@ -89,7 +90,8 @@ module.exports = function(grunt) {
           'auth-middleware.js',
           'client/**/*.js',
           'gitListener/**/*.js',
-          'server/**/*.js'
+          'server/**/*.js',
+          '!server/services/git_data/**'
         ],
         tasks: ['jshint']
       },
