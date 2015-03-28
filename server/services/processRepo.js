@@ -35,7 +35,7 @@ var processRepo = function(repoID) {
               scanResults = {'error': 'ScanJS failed... sorry!'};
             }
             
-            if (!scanResults) {
+            if (!Object.keys(scanResults).length) {
               scanResults = {'clear': 'Congrats, nothing found!'};
             }
 
@@ -80,7 +80,7 @@ var processRepo = function(repoID) {
             console.log('starting api_key scan...');
             try {
               parseService.parseFile(repoID, function(parseResults) {
-                if (!parseResults) {
+                if (!parseResults.length) {
                   parseResults = {'clear': 'Congrats, nothing found!'};
                 }
 
