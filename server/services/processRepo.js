@@ -16,6 +16,7 @@ var processRepo = function(repoID) {
     // makes dirs and downloads repos for chosen repo
     console.log('starting downloadService to DL repos...');
     downloadService.readListOfFiles(repoObj, function(repoID){
+      console.log('final REPOID: ', repoID, typeof repoID);
       // db connection with our Repos
       var repos = db.get('Repos');
       var fullRelativePath = __dirname + '/../../git_data/' + repoID;
