@@ -10,7 +10,6 @@ var retirejs = require('./retirejs/retire.js');
 var scanjs = require('./scanjs/scanner.js');
 
 var processRepo = function(repoID) {
-  console.log('RICH CHECK! repoID that processRepo() was given: ', repoID, typeof repoID);
   // gets individual records from the database and then returns an array with at least 3 of them
   console.log('starting queryService to get repo...');
   queryService.query(repoID, function(repoObj){
@@ -40,7 +39,7 @@ var processRepo = function(repoID) {
             }
 
             // add scan results to the DB
-            repos.findAndModify({repo_id: repoID}, {$set: {'repo_info.scan_results': JSON.stringify(scanResults)}}, function() {
+            repos.findAndModify({query: {repo_id: repoID}, update: {$set: {'repo_info.scan_results': JSON.stringify(scanResults)}}}, function() {
               console.log('record updated with scanResults...');
               callback(null, 'scan');
             });
@@ -63,7 +62,7 @@ var processRepo = function(repoID) {
             }
 
             // add retire results to the DB
-            repos.findAndModify({repo_id: repoID}, {$set: {'repo_info.retire_results': retireResults}}, function(err) {
+            repos.findAndModify({query: {repo_id: repoID}, update: {$set: {'repo_info.retire_results': retireResults}}}, function(err) {
               if (err) {
                 console.log('db err: ', err);
               }
@@ -81,7 +80,7 @@ var processRepo = function(repoID) {
                   parseResults = {'clear': 'Congrats, nothing found!'};
                 }
 
-                repos.findAndModify({repo_id: repoID}, {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}, function() {
+                repos.findAndModify({query: {repo_id: repoID}, update: {$set: {'repo_info.parse_results': JSON.stringify(parseResults)}}}, function() {
                   console.log('record updated with parseResults...');
                   callback(null, 'parse');
                 });
