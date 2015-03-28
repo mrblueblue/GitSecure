@@ -28,12 +28,14 @@ app.use(bodyParser.json());
 // the user has subscribed to
 
 app.get('/repos/:userid', function(req, res){
-  //console.log('This is the request:', req);
+  console.log('This is the request:', req.params.userid);
   db.findAllReposByUser(req.params.userid, function(docs) {
     var collection = docs.map(function(doc){
       return doc.repo_id;
     });
+
     console.log('Sending:', collection);
+
     res.status(201).send(collection);
   }); 
 });
@@ -51,6 +53,8 @@ app.get('/repos/:userid', function(req, res){
 
 app.post('/repos/', function(req, res){
 
+  console.log(req.body[0].userid)
+  console.log(typeof req.body[0].userid)
   //console.log('This is the request:', req);
   db.findAllReposByUser(req.body[0].userid, function(docs) {
     var serverRepos = docs;

@@ -8,6 +8,11 @@ body {
   margin-right: 20%;
 }
 
+md-progress-linear {
+  padding-top: 10px;
+  margin-bottom: 20px; 
+}
+
 .login-container {
   padding: 25px;
 }
