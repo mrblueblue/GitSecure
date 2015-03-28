@@ -19,7 +19,7 @@ exports.readListOfFiles = function(repoObj, endAsyncLoopCallback) {
     }
   }
   */
-  var repositoryId = repoObj._id.toString();
+  var repositoryId = repoObj.repo_id.toString();
   var repositoryUrl = repoObj.repo_info.git_url;
   var repositoryPath = 'git_data/' + repositoryId;
   console.log('Downloading Repository: ' + repositoryUrl);
